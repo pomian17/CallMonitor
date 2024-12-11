@@ -1,8 +1,11 @@
 package com.mpomian.callmonitor.model
 
+import kotlinx.serialization.Serializable
+
+@Serializable
 data class CallLog(
-    val name: String?,
-    val number: String,
+    val beginning: String,
     val duration: Int,
-    val timestamp: Long,
+    val number: String,
+    val name: String?,
 )

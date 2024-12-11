@@ -8,8 +8,10 @@ import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class CallLogListViewModel(httpServer: HttpServer) : ViewModel() {
-    private val repository = MockCallRepository()
+class CallLogListViewModel(
+    private val repository: MockCallRepository,
+    httpServer: HttpServer
+) : ViewModel() {
 
     private val _callLogs = MutableStateFlow<List<CallLog>>(emptyList())
     val callLogs: StateFlow<List<CallLog>> = _callLogs

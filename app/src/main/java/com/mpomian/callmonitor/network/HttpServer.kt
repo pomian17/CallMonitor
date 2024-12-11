@@ -1,6 +1,7 @@
 package com.mpomian.callmonitor.network
 
 import com.mpomian.callmonitor.model.OngoingCall
+import com.mpomian.callmonitor.repository.MockCallRepository
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -22,7 +23,7 @@ import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
 
-class HttpServer {
+class HttpServer(private val mockCallRepository: MockCallRepository) {
     private var server: NettyApplicationEngine? = null
     private val _isRunning = MutableStateFlow(false)
     val isRunning: StateFlow<Boolean> = _isRunning
@@ -59,6 +60,17 @@ class HttpServer {
                         name = "John Doe"
                     )
                     call.respondJson(Json.encodeToString(ongoingCall))
+                }
+
+                get("/log") {
+                    val callLogs = mockCallRepository.getCallLogs()
+                    val jsonCallLogs = try {
+                        Json.encodeToString(callLogs)
+                    } catch (e: Exception) {
+                        println("Error encoding call logs: ${e}")
+                        "[]"
+                    }
+                    call.respondJson(jsonCallLogs)
                 }
             }
         }.start(wait = false)

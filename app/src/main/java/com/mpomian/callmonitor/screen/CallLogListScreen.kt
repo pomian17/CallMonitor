@@ -24,7 +24,6 @@ import com.google.accompanist.permissions.shouldShowRationale
 import com.mpomian.callmonitor.model.CallLog
 import com.mpomian.callmonitor.service.ServerForegroundService
 import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
-import java.text.SimpleDateFormat
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
@@ -103,10 +102,6 @@ fun CallLogItem(call: CallLog) {
         BasicText(text = "Name: ${call.name ?: "Unknown"}")
         BasicText(text = "Number: ${call.number}")
         BasicText(text = "Duration: ${call.duration} seconds")
-        BasicText(
-            text = "Time: ${
-                SimpleDateFormat("yyyy-MM-dd HH:mm:ss").format(call.timestamp)
-            }"
-        )
+        BasicText(            text = "Time: ${call.beginning}"        )
     }
 }
