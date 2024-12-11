@@ -5,5 +5,5 @@ import com.mpomian.callmonitor.di.AppContainer
 
 
 class CallMonitorApp : Application() {
-    val appContainer = AppContainer()
+    val appContainer = AppContainer(this)
 }

@@ -29,6 +29,7 @@ import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 @Composable
 fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modifier) {
 
+    val callLogPermissionState = rememberPermissionState(Manifest.permission.READ_CALL_LOG)
     val notificationsPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
     } else {
@@ -39,18 +40,29 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
     val deviceIp by viewModel.deviceIp.collectAsState()
     val serverStatus by viewModel.serverStatus.collectAsState()
 
-    val requestPermissionLauncher = rememberLauncherForActivityResult(
+    val requestCallLogPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        //TODO
+    }
+    val requestNotificationsPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
     ) { isGranted ->
         //TODO
     }
 
-    LaunchedEffect(notificationsPermissionState) {
+    LaunchedEffect(callLogPermissionState, notificationsPermissionState) {
+        if (!callLogPermissionState.status.isGranted && callLogPermissionState.status.shouldShowRationale) {
+            // TODO Show rationale
+        } else {
+            requestCallLogPermissionLauncher.launch(Manifest.permission.READ_CALL_LOG)
+        }
+
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && notificationsPermissionState != null) {
             if (!notificationsPermissionState.status.isGranted && notificationsPermissionState.status.shouldShowRationale) {
                 // TODO Show rationale
             } else {
-                requestPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
+                requestNotificationsPermissionLauncher.launch(Manifest.permission.POST_NOTIFICATIONS)
             }
         }
     }
@@ -102,6 +114,6 @@ fun CallLogItem(call: CallLog) {
         BasicText(text = "Name: ${call.name ?: "Unknown"}")
         BasicText(text = "Number: ${call.number}")
         BasicText(text = "Duration: ${call.duration} seconds")
-        BasicText(            text = "Time: ${call.beginning}"        )
+        BasicText(text = "Time: ${call.beginning}")
     }
 }

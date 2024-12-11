@@ -5,7 +5,7 @@ import kotlinx.serialization.Serializable
 @Serializable
 data class CallLog(
     val beginning: String,
-    val duration: Int,
+    val duration: Long,
     val number: String,
     val name: String?,
 )

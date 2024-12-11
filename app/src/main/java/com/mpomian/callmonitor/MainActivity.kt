@@ -24,7 +24,7 @@ class MainActivity : ComponentActivity() {
             CallMonitorTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val viewModel = CallLogListViewModel(
-                        appContainer.mockCallRepository,
+                        appContainer.callRepository,
                         appContainer.httpServer
                     )
 
