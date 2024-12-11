@@ -13,13 +13,17 @@ import com.mpomian.callmonitor.ui.theme.CallMonitorTheme
 import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 
 class MainActivity : ComponentActivity() {
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
+
+        val appContainer = (application as CallMonitorApp).appContainer
+
         enableEdgeToEdge()
         setContent {
             CallMonitorTheme {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
-                    val viewModel = CallLogListViewModel()
+                    val viewModel = CallLogListViewModel(appContainer.httpServer)
 
                     setContent {
                         CallLogListScreen(

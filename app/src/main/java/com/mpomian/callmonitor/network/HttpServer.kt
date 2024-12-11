@@ -9,6 +9,8 @@ import io.ktor.server.netty.NettyApplicationEngine
 import io.ktor.server.response.respond
 import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -18,6 +20,8 @@ import java.util.TimeZone
 
 class HttpServer {
     private var server: NettyApplicationEngine? = null
+    private val _isRunning = MutableStateFlow(false)
+    val isRunning: StateFlow<Boolean> = _isRunning
 
     fun start() {
         val hostAddress = getDeviceIpAddress()
@@ -44,10 +48,12 @@ class HttpServer {
                 }
             }
         }.start(wait = false)
+        _isRunning.value = true
     }
 
     fun stop() {
         server?.stop(1000, 1000)
+        _isRunning.value = false
     }
 }
 

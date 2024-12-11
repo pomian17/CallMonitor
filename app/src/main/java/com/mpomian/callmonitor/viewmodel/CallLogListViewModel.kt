@@ -8,7 +8,7 @@ import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
-class CallLogListViewModel : ViewModel() {
+class CallLogListViewModel(httpServer: HttpServer) : ViewModel() {
     private val repository = MockCallRepository()
 
     private val _callLogs = MutableStateFlow<List<CallLog>>(emptyList())
@@ -17,30 +17,12 @@ class CallLogListViewModel : ViewModel() {
     private val _deviceIp = MutableStateFlow("fetching...")
     val deviceIp: StateFlow<String> = _deviceIp
 
-    private val server = HttpServer()
+    private val _serverStatus = httpServer.isRunning
+    val serverStatus: StateFlow<Boolean> = _serverStatus
 
     init {
         loadCallLogs()
         fetchDeviceIp()
-    }
-
-    fun startServer(): Boolean {
-        return try {
-            server.start()
-            true
-        } catch (e: Exception) {
-            e.printStackTrace()
-            false
-        }
-    }
-
-    fun stopServer() {
-        server.stop()
-    }
-
-    override fun onCleared() {
-        super.onCleared()
-        stopServer()
     }
 
     private fun loadCallLogs() {
