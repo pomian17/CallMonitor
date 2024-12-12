@@ -1,6 +1,6 @@
 package com.mpomian.callmonitor.network
 
-import com.mpomian.callmonitor.model.CallLog
+import com.mpomian.callmonitor.model.CallLogWithQueryCount
 import com.mpomian.callmonitor.model.OngoingCall
 import com.mpomian.callmonitor.repository.CallLogRepository
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
@@ -17,19 +17,25 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.map
+import kotlinx.coroutines.flow.toList
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.text.SimpleDateFormat
 import java.util.Date
 import java.util.TimeZone
+import java.util.concurrent.ConcurrentHashMap
 
 class HttpServer(private val callLogRepository: CallLogRepository) {
+
     private var server: NettyApplicationEngine? = null
     private val _isRunning = MutableStateFlow(false)
     val isRunning: StateFlow<Boolean> = _isRunning
     private lateinit var formattedStartDate: String
+    private val queryCountMap = ConcurrentHashMap<String, Int>()
 
+    //TODO: Add full error handling and constants for port
     fun start() {
         val hostAddress = getDeviceIpAddress()
         val port = 8080
@@ -64,17 +70,22 @@ class HttpServer(private val callLogRepository: CallLogRepository) {
                 }
 
                 get("/log") {
-                    val callLogs = mutableListOf<CallLog>()
-                    callLogRepository.getCallLogs().collect { logs ->
-                        callLogs.addAll(logs)
-                    }
-                    val jsonCallLogs = try {
-                        Json.encodeToString(callLogs)
-                    } catch (e: Exception) {
-                        println("Error encoding call logs: $e")
-                        "[]"
-                    }
-                    call.respondJson(jsonCallLogs)
+                    val callLogsWithQueryCount = callLogRepository.getCallLogs().map { logs ->
+                        logs.map { log ->
+                            val timesQueried = queryCountMap[log.beginning]?.let {
+                                queryCountMap.replace(log.beginning, it + 1)
+                                it + 1
+                            } ?: 0
+                            CallLogWithQueryCount(
+                                beginning = log.beginning,
+                                duration = log.duration,
+                                number = log.number,
+                                name = log.name,
+                                timesQueried = timesQueried
+                            )
+                        }
+                    }.toList().flatten()
+                    call.respondJson(Json.encodeToString(callLogsWithQueryCount))
                 }
             }
         }.start(wait = false)

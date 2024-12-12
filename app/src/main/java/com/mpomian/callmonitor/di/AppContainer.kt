@@ -9,7 +9,7 @@ class AppContainer(context: Context) {
     val callRepository: CallLogRepository by lazy {
         CallLogRepositorySwitcher(
             contentResolver = context.contentResolver,
-            hasPermission = false //TODO unmock
+            hasPermission = true //TODO unmock
         )
     }
     val httpServer: HttpServer by lazy { HttpServer(callRepository) }
