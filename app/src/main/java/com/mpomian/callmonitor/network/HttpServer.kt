@@ -1,8 +1,8 @@
 package com.mpomian.callmonitor.network
 
 import com.mpomian.callmonitor.model.CallLogWithQueryCount
-import com.mpomian.callmonitor.model.OngoingCall
 import com.mpomian.callmonitor.repository.CallLogRepository
+import com.mpomian.callmonitor.repository.CallStatusProvider
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -27,7 +27,10 @@ import java.util.Date
 import java.util.TimeZone
 import java.util.concurrent.ConcurrentHashMap
 
-class HttpServer(private val callLogRepository: CallLogRepository) {
+class HttpServer(
+    private val callLogRepository: CallLogRepository,
+    private val callStatusProvider: CallStatusProvider
+) {
 
     private var server: NettyApplicationEngine? = null
     private val _isRunning = MutableStateFlow(false)
@@ -61,12 +64,16 @@ class HttpServer(private val callLogRepository: CallLogRepository) {
                 }
 
                 get("/status") {
-                    val ongoingCall = OngoingCall(
-                        ongoing = true,
-                        number = "+123456789",
-                        name = "John Doe"
-                    )
-                    call.respondJson(Json.encodeToString(ongoingCall))
+                    try {
+                        val ongoingCall = callStatusProvider.ongoingCall.value
+                        call.respondJson(Json.encodeToString(ongoingCall))
+                    } catch (e: Exception) {
+                        println("Error fetching call status: ${e.message}")
+                        call.respond(
+                            HttpStatusCode.InternalServerError,
+                            "Unable to fetch call status"
+                        )
+                    }
                 }
 
                 get("/log") {

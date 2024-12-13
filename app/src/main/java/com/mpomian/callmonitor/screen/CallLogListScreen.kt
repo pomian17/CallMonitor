@@ -21,7 +21,7 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.google.accompanist.permissions.isGranted
 import com.google.accompanist.permissions.rememberPermissionState
 import com.google.accompanist.permissions.shouldShowRationale
-import com.mpomian.callmonitor.model.CallLog
+import com.mpomian.callmonitor.model.LoggedCall
 import com.mpomian.callmonitor.service.ServerForegroundService
 import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 
@@ -30,6 +30,8 @@ import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modifier) {
 
     val callLogPermissionState = rememberPermissionState(Manifest.permission.READ_CALL_LOG)
+    val callStatePermissionState = rememberPermissionState(Manifest.permission.READ_PHONE_STATE)
+    val readContactsPermissionState = rememberPermissionState(Manifest.permission.READ_CONTACTS)
     val notificationsPermissionState = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         rememberPermissionState(Manifest.permission.POST_NOTIFICATIONS)
     } else {
@@ -39,6 +41,7 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
     val callLogs by viewModel.callLogs.collectAsState()
     val deviceIp by viewModel.deviceIp.collectAsState()
     val serverStatus by viewModel.serverStatus.collectAsState()
+    val ongoingCall by viewModel.callStatus.collectAsState()
 
     val requestCallLogPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -50,12 +53,35 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
     ) { isGranted ->
         //TODO
     }
+    val requestCallStatePermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        //TODO
+    }
+
+    val requestReadContactsPermissionLauncher = rememberLauncherForActivityResult(
+        ActivityResultContracts.RequestPermission()
+    ) { isGranted ->
+        //TODO
+    }
 
     LaunchedEffect(callLogPermissionState, notificationsPermissionState) {
         if (!callLogPermissionState.status.isGranted && callLogPermissionState.status.shouldShowRationale) {
             // TODO Show rationale
         } else {
             requestCallLogPermissionLauncher.launch(Manifest.permission.READ_CALL_LOG)
+        }
+
+        if (!callStatePermissionState.status.isGranted && callStatePermissionState.status.shouldShowRationale) {
+            // TODO Show rationale
+        } else {
+            requestCallStatePermissionLauncher.launch(Manifest.permission.READ_PHONE_STATE)
+        }
+
+        if (!readContactsPermissionState.status.isGranted && readContactsPermissionState.status.shouldShowRationale) {
+            // TODO Show rationale
+        } else {
+            requestReadContactsPermissionLauncher.launch(Manifest.permission.READ_CONTACTS)
         }
 
         if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU && notificationsPermissionState != null) {
@@ -99,6 +125,11 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
             ) { Text("Stop Server") }
         }
 
+        Text(
+            modifier = Modifier.padding(16.dp),
+            text = ongoingCall.toString()
+        )
+
         LazyColumn {
             items(callLogs.size) { index ->
                 val call = callLogs[index]
@@ -109,7 +140,7 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
 }
 
 @Composable
-fun CallLogItem(call: CallLog) {
+fun CallLogItem(call: LoggedCall) {
     Column(modifier = Modifier.padding(8.dp)) {
         BasicText(text = "Name: ${call.name ?: "Unknown"}")
         BasicText(text = "Number: ${call.number}")

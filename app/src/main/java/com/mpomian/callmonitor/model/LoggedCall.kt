@@ -3,7 +3,7 @@ package com.mpomian.callmonitor.model
 import kotlinx.serialization.Serializable
 
 @Serializable
-data class CallLog(
+data class LoggedCall(
     val beginning: String,
     val duration: Long,
     val number: String,

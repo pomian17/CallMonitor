@@ -25,6 +25,7 @@ class MainActivity : ComponentActivity() {
                 Scaffold(modifier = Modifier.fillMaxSize()) { innerPadding ->
                     val viewModel = CallLogListViewModel(
                         appContainer.callRepository,
+                        appContainer.callStatusProvider,
                         appContainer.httpServer
                     )
 

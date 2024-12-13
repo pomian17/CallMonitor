@@ -1,35 +1,34 @@
 package com.mpomian.callmonitor.repository
 
 import android.content.ContentResolver
-import android.provider.CallLog as AndroidCallLog
-import com.mpomian.callmonitor.model.CallLog
+import android.provider.CallLog
+import com.mpomian.callmonitor.model.LoggedCall
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
 class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRepository {
 
-    override fun getCallLogs(): Flow<List<CallLog>> = flow {
-        val callLogs = mutableListOf<CallLog>()
+    override fun getCallLogs(): Flow<List<LoggedCall>> = flow {
+        val callLogs = mutableListOf<LoggedCall>()
 
         val cursor = contentResolver.query(
-            AndroidCallLog.Calls.CONTENT_URI,
+            CallLog.Calls.CONTENT_URI,
             arrayOf(
-                AndroidCallLog.Calls.NUMBER,
-                AndroidCallLog.Calls.DURATION,
-                AndroidCallLog.Calls.DATE,
-                AndroidCallLog.Calls.CACHED_NAME
+                CallLog.Calls.NUMBER,
+                CallLog.Calls.DURATION,
+                CallLog.Calls.DATE,
+                CallLog.Calls.CACHED_NAME
             ),
             null,
             null,
-            AndroidCallLog.Calls.DATE + " DESC"
+            CallLog.Calls.DATE + " DESC"
         )
 
 
-
-        val numberIndex = cursor?.getColumnIndex(AndroidCallLog.Calls.NUMBER)?.takeIf { it >= 0 }
-        val durationIndex = cursor?.getColumnIndex(AndroidCallLog.Calls.DURATION)?.takeIf { it >= 0 }
-        val dateIndex = cursor?.getColumnIndex(AndroidCallLog.Calls.DATE)?.takeIf { it >= 0 }
-        val nameIndex = cursor?.getColumnIndex(AndroidCallLog.Calls.CACHED_NAME)?.takeIf { it >= 0 }
+        val numberIndex = cursor?.getColumnIndex(CallLog.Calls.NUMBER)?.takeIf { it >= 0 }
+        val durationIndex = cursor?.getColumnIndex(CallLog.Calls.DURATION)?.takeIf { it >= 0 }
+        val dateIndex = cursor?.getColumnIndex(CallLog.Calls.DATE)?.takeIf { it >= 0 }
+        val nameIndex = cursor?.getColumnIndex(CallLog.Calls.CACHED_NAME)?.takeIf { it >= 0 }
 
         cursor?.use {
             while (it.moveToNext()) {
@@ -39,11 +38,11 @@ class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRep
                 val date = dateIndex?.let { index -> it.getLong(index) }
                 val name = nameIndex?.let { index -> it.getString(index) }
 
-                if(number == null || duration == null || date == null) {
+                if (number == null || duration == null || date == null) {
                     continue
                 }
                 callLogs.add(
-                    CallLog(
+                    LoggedCall(
                         number = number,
                         duration = duration,
                         beginning = date.toString(), //TODO add mapper
