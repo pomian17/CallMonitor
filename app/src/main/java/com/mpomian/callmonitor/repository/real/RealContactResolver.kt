@@ -1,17 +1,18 @@
-package com.mpomian.callmonitor.repository
+package com.mpomian.callmonitor.repository.real
 
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.ContactsContract
+import com.mpomian.callmonitor.repository.base.ContactResolver
 
-class ContactResolver(private val contentResolver: ContentResolver) {
+class RealContactResolver(private val contentResolver: ContentResolver) : ContactResolver {
 
     /**
      * Provides the contact name for the given phone number.
      * @param phoneNumber The phone number to resolve.
-     * @return The contact name if found, or null if not found.
+     * @return The contact name if found, or null otherwise.
      */
-    fun getContactName(phoneNumber: String): String? {
+    override fun getContactName(phoneNumber: String): String? {
 
         val uri: Uri = Uri.withAppendedPath(
             ContactsContract.PhoneLookup.CONTENT_FILTER_URI,

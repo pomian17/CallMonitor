@@ -1,15 +1,43 @@
-package com.mpomian.callmonitor.repository
+package com.mpomian.callmonitor.repository.real
 
 import android.content.ContentResolver
+import android.database.ContentObserver
+import android.net.Uri
+import android.os.Handler
+import android.os.Looper
 import android.provider.CallLog
 import com.mpomian.callmonitor.model.LoggedCall
+import com.mpomian.callmonitor.repository.base.CallLogRepository
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
-import kotlinx.coroutines.flow.Flow
-import kotlinx.coroutines.flow.flow
+import kotlinx.coroutines.flow.MutableStateFlow
+import kotlinx.coroutines.flow.StateFlow
 
 class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRepository {
 
-    override fun getCallLogs(): Flow<List<LoggedCall>> = flow {
+    private val _callLogsFlow = MutableStateFlow<List<LoggedCall>>(emptyList())
+
+    private val callLogObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
+        override fun onChange(selfChange: Boolean, uri: Uri?) {
+            super.onChange(selfChange, uri)
+            val newLogs = fetchCallLogs()
+            _callLogsFlow.value = newLogs
+        }
+    }
+
+    init {
+        contentResolver.registerContentObserver(
+            CallLog.Calls.CONTENT_URI,
+            true,
+            callLogObserver
+        )
+
+        val newLogs = fetchCallLogs()
+        _callLogsFlow.value = newLogs
+    }
+
+    override fun getCallLogs(): StateFlow<List<LoggedCall>> = _callLogsFlow
+
+    private fun fetchCallLogs(): List<LoggedCall> {
         val callLogs = mutableListOf<LoggedCall>()
 
         val cursor = contentResolver.query(
@@ -24,7 +52,6 @@ class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRep
             null,
             CallLog.Calls.DATE + " DESC"
         )
-
 
         val numberIndex = cursor?.getColumnIndex(CallLog.Calls.NUMBER)?.takeIf { it >= 0 }
         val durationIndex = cursor?.getColumnIndex(CallLog.Calls.DURATION)?.takeIf { it >= 0 }
@@ -53,6 +80,6 @@ class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRep
             }
         }
 
-        emit(callLogs)
+        return callLogs
     }
 }

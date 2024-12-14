@@ -1,8 +1,8 @@
 package com.mpomian.callmonitor.network
 
 import com.mpomian.callmonitor.model.CallLogWithQueryCount
-import com.mpomian.callmonitor.repository.CallLogRepository
-import com.mpomian.callmonitor.repository.CallStatusProvider
+import com.mpomian.callmonitor.repository.base.CallLogRepository
+import com.mpomian.callmonitor.repository.base.CallStatusProvider
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import io.ktor.http.ContentType
 import io.ktor.http.HttpStatusCode
@@ -17,8 +17,8 @@ import io.ktor.server.routing.get
 import io.ktor.server.routing.routing
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
-import kotlinx.coroutines.flow.map
-import kotlinx.coroutines.flow.toList
+import kotlinx.coroutines.flow.firstOrNull
+import kotlinx.coroutines.flow.lastOrNull
 import kotlinx.serialization.Serializable
 import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
@@ -77,22 +77,27 @@ class HttpServer(
                 }
 
                 get("/log") {
-                    val callLogsWithQueryCount = callLogRepository.getCallLogs().map { logs ->
-                        logs.map { log ->
-                            val timesQueried = queryCountMap[log.beginning]?.let {
-                                queryCountMap.replace(log.beginning, it + 1)
-                                it + 1
-                            } ?: 0
-                            CallLogWithQueryCount(
-                                beginning = log.beginning,
-                                duration = log.duration,
-                                number = log.number,
-                                name = log.name,
-                                timesQueried = timesQueried
-                            )
-                        }
-                    }.toList().flatten()
-                    call.respondJson(Json.encodeToString(callLogsWithQueryCount))
+                    try {
+                        val callLogsWithQueryCount =
+                            callLogRepository.getCallLogs().value.map { log ->
+                                val timesQueried = queryCountMap[log.beginning] ?: 0
+                                queryCountMap.put(log.beginning, timesQueried + 1)
+                                CallLogWithQueryCount(
+                                    beginning = log.beginning,
+                                    duration = log.duration,
+                                    number = log.number,
+                                    name = log.name,
+                                    timesQueried = timesQueried
+                                )
+                            }
+                        call.respondJson(Json.encodeToString(callLogsWithQueryCount))
+                    } catch (e: Exception) {
+                        println("Error fetching call logs: ${e.message}")
+                        call.respond(
+                            HttpStatusCode.InternalServerError,
+                            "Unable to fetch call logs"
+                        )
+                    }
                 }
             }
         }.start(wait = false)

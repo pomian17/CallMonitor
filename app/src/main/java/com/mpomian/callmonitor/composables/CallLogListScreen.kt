@@ -94,7 +94,11 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
 
 @Composable
 fun CallLogItem(call: LoggedCall) {
-    Column(modifier = Modifier.padding(8.dp)) {
+    Column(
+        modifier = Modifier
+            .fillMaxWidth()
+            .padding(8.dp)
+    ) {
         BasicText(
             text = stringResource(
                 R.string.name,
