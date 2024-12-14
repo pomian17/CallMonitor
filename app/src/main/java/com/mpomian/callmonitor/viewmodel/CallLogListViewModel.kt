@@ -3,6 +3,7 @@ package com.mpomian.callmonitor.viewmodel
 import androidx.lifecycle.ViewModel
 import com.mpomian.callmonitor.model.LoggedCall
 import com.mpomian.callmonitor.model.OngoingCall
+import com.mpomian.callmonitor.model.ServerState
 import com.mpomian.callmonitor.network.HttpServer
 import com.mpomian.callmonitor.repository.base.CallLogRepository
 import com.mpomian.callmonitor.repository.base.CallStatusProvider
@@ -21,8 +22,8 @@ class CallLogListViewModel(
     private val _deviceIp = MutableStateFlow("fetching...")
     val deviceIp: StateFlow<String> = _deviceIp
 
-    private val _serverStatus = httpServer.isRunning
-    val serverStatus: StateFlow<Boolean> = _serverStatus
+    private val _serverStatus = httpServer.serverState
+    val serverStatus: StateFlow<ServerState> = _serverStatus
 
     private val _callStatus = callStatusProvider.ongoingCall
     val callStatus: StateFlow<OngoingCall> = _callStatus

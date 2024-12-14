@@ -18,6 +18,7 @@ import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mpomian.callmonitor.R
 import com.mpomian.callmonitor.model.LoggedCall
+import com.mpomian.callmonitor.model.ServerState
 import com.mpomian.callmonitor.service.ServerForegroundService
 import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 
@@ -47,10 +48,11 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
         Text(
             stringResource(
                 R.string.server_status,
-                if (serverStatus) {
-                    stringResource(R.string.running)
-                } else {
-                    stringResource(R.string.stopped)
+                when (serverStatus) {
+                    ServerState.STARTING -> stringResource(R.string.starting)
+                    ServerState.RUNNING -> stringResource(R.string.running)
+                    ServerState.STOPPING -> stringResource(R.string.stopping)
+                    ServerState.STOPPED -> stringResource(R.string.stopped)
                 }
             )
         )

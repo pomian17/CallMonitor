@@ -11,6 +11,7 @@ import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.mpomian.callmonitor.CallMonitorApp
+import com.mpomian.callmonitor.model.ServerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
@@ -35,7 +36,7 @@ class ServerForegroundService : Service() {
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (!server.isRunning.value) {
+        if (server.serverState.value == ServerState.STOPPED) {
             serviceScope.launch { startServer() }
         }
         return START_STICKY

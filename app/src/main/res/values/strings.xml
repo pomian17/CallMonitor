@@ -24,4 +24,6 @@
     <string name="number">Number: %s</string>
     <string name="duration_seconds">Duration: %s seconds</string>
     <string name="time">Time: %s</string>
+    <string name="starting">Starting</string>
+    <string name="stopping">Stopping</string>
 </resources>
