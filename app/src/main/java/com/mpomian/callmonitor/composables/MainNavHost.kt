@@ -5,6 +5,8 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
+import com.mpomian.callmonitor.composables.screens.CallLogListScreen
+import com.mpomian.callmonitor.composables.screens.PermissionsScreen
 import com.mpomian.callmonitor.di.AppContainer
 import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 
@@ -18,7 +20,11 @@ fun MainNavHost(
         composable("permissions") {
             PermissionsScreen(
                 modifier = modifier,
-                navigateToCallLogList = { navController.navigate("call_log_list") },
+                navigateToCallLogList = {
+                    navController.navigate("call_log_list") {
+                        popUpTo("permissions") { inclusive = true }
+                    }
+                },
             )
         }
         composable("call_log_list") {

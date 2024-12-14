@@ -1,4 +1,4 @@
-package com.mpomian.callmonitor.composables
+package com.mpomian.callmonitor.composables.screens
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*

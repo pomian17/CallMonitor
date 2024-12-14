@@ -1,5 +1,6 @@
-package com.mpomian.callmonitor.composables
+package com.mpomian.callmonitor.composables.screens
 
+import android.Manifest
 import android.content.Context
 import android.content.Intent
 import android.net.Uri
@@ -39,16 +40,16 @@ fun PermissionsScreen(
 ) {
     val requiredPermissions = if (Build.VERSION.SDK_INT >= Build.VERSION_CODES.TIRAMISU) {
         listOf(
-            android.Manifest.permission.READ_CALL_LOG,
-            android.Manifest.permission.READ_CONTACTS,
-            android.Manifest.permission.READ_PHONE_STATE,
-            android.Manifest.permission.POST_NOTIFICATIONS
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.POST_NOTIFICATIONS
         )
     } else {
         listOf(
-            android.Manifest.permission.READ_CALL_LOG,
-            android.Manifest.permission.READ_CONTACTS,
-            android.Manifest.permission.READ_PHONE_STATE,
+            Manifest.permission.READ_CALL_LOG,
+            Manifest.permission.READ_CONTACTS,
+            Manifest.permission.READ_PHONE_STATE,
         )
     }
     val (recomposeTrigger, setRecomposeTrigger) = remember { mutableIntStateOf(0) }
@@ -173,20 +174,20 @@ fun EnablePermissionsRationaleLayout(
 
 fun getPermissionDescriptionResId(permission: String): Int? {
     return when (permission) {
-        android.Manifest.permission.READ_CALL_LOG -> R.string.read_call_log_permission_title
-        android.Manifest.permission.READ_CONTACTS -> R.string.read_contacts_permission_title
-        android.Manifest.permission.READ_PHONE_STATE -> R.string.read_phone_state_permission_title
-        android.Manifest.permission.POST_NOTIFICATIONS -> R.string.post_notifications_permission_title
+        Manifest.permission.READ_CALL_LOG -> R.string.read_call_log_permission_title
+        Manifest.permission.READ_CONTACTS -> R.string.read_contacts_permission_title
+        Manifest.permission.READ_PHONE_STATE -> R.string.read_phone_state_permission_title
+        Manifest.permission.POST_NOTIFICATIONS -> R.string.post_notifications_permission_title
         else -> null
     }
 }
 
 fun getPermissionNotGrantedDescriptionResId(permission: String): Int? {
     return when (permission) {
-        android.Manifest.permission.READ_CALL_LOG -> R.string.read_call_log_permission_not_granted
-        android.Manifest.permission.READ_CONTACTS -> R.string.read_contacts_permission_not_granted
-        android.Manifest.permission.READ_PHONE_STATE -> R.string.read_phone_state_permission_not_granted
-        android.Manifest.permission.POST_NOTIFICATIONS -> R.string.post_notifications_permission_not_granted
+        Manifest.permission.READ_CALL_LOG -> R.string.read_call_log_permission_not_granted
+        Manifest.permission.READ_CONTACTS -> R.string.read_contacts_permission_not_granted
+        Manifest.permission.READ_PHONE_STATE -> R.string.read_phone_state_permission_not_granted
+        Manifest.permission.POST_NOTIFICATIONS -> R.string.post_notifications_permission_not_granted
         else -> null
     }
 }
