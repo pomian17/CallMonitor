@@ -3,6 +3,7 @@ package com.mpomian.callmonitor.repository
 import android.content.ContentResolver
 import android.provider.CallLog
 import com.mpomian.callmonitor.model.LoggedCall
+import com.mpomian.callmonitor.utils.Utils.toFormattedDate
 import kotlinx.coroutines.flow.Flow
 import kotlinx.coroutines.flow.flow
 
@@ -45,7 +46,7 @@ class CallLogProvider(private val contentResolver: ContentResolver) : CallLogRep
                     LoggedCall(
                         number = number,
                         duration = duration,
-                        beginning = date.toString(), //TODO add mapper
+                        beginning = date.toFormattedDate(),
                         name = name
                     )
                 )

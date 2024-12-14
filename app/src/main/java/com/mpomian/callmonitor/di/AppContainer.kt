@@ -10,7 +10,7 @@ import com.mpomian.callmonitor.repository.CallStatusProvider
 import com.mpomian.callmonitor.repository.ContactResolver
 
 class AppContainer(context: Context) {
-    val hasPermission = true //TODO unmock
+    val hasPermission = false //TODO unmock
     val callRepository: CallLogRepository by lazy {
         if (hasPermission) {
             CallLogProvider(context.contentResolver)

@@ -7,6 +7,8 @@ import androidx.activity.compose.rememberLauncherForActivityResult
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
+import androidx.compose.foundation.lazy.itemsIndexed
+import androidx.compose.foundation.lazy.rememberLazyListState
 import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
@@ -28,7 +30,6 @@ import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modifier) {
-
     val callLogPermissionState = rememberPermissionState(Manifest.permission.READ_CALL_LOG)
     val callStatePermissionState = rememberPermissionState(Manifest.permission.READ_PHONE_STATE)
     val readContactsPermissionState = rememberPermissionState(Manifest.permission.READ_CONTACTS)
@@ -42,6 +43,7 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
     val deviceIp by viewModel.deviceIp.collectAsState()
     val serverStatus by viewModel.serverStatus.collectAsState()
     val ongoingCall by viewModel.callStatus.collectAsState()
+    val listState = rememberLazyListState()
 
     val requestCallLogPermissionLauncher = rememberLauncherForActivityResult(
         ActivityResultContracts.RequestPermission()
@@ -93,6 +95,11 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
         }
     }
 
+    LaunchedEffect(callLogs) {
+        if (listState.firstVisibleItemIndex in 0..1) {
+            listState.animateScrollToItem(0)
+        }
+    }
 
     Column(
         modifier = modifier
@@ -130,9 +137,8 @@ fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modi
             text = ongoingCall.toString()
         )
 
-        LazyColumn {
-            items(callLogs.size) { index ->
-                val call = callLogs[index]
+        LazyColumn(state = listState) {
+            itemsIndexed(callLogs, key = { _, item -> item.beginning }) { _, call ->
                 CallLogItem(call)
             }
         }
