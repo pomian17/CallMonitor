@@ -1,6 +1,6 @@
-package com.mpomian.callmonitor.repository.base
+package com.mpomian.callmonitor.data.repository.base
 
-import com.mpomian.callmonitor.model.LoggedCall
+import com.mpomian.callmonitor.data.model.LoggedCall
 import kotlinx.coroutines.flow.StateFlow
 
 interface CallLogRepository {

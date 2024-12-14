@@ -1,4 +1,4 @@
-package com.mpomian.callmonitor.composables.screens
+package com.mpomian.callmonitor.presentation.screen
 
 import android.content.Intent
 import androidx.compose.foundation.layout.*
@@ -17,10 +17,10 @@ import androidx.compose.ui.res.stringResource
 import androidx.compose.ui.unit.dp
 import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mpomian.callmonitor.R
-import com.mpomian.callmonitor.model.LoggedCall
-import com.mpomian.callmonitor.model.ServerState
+import com.mpomian.callmonitor.data.model.LoggedCall
+import com.mpomian.callmonitor.data.model.ServerState
 import com.mpomian.callmonitor.service.ServerForegroundService
-import com.mpomian.callmonitor.viewmodel.CallLogListViewModel
+import com.mpomian.callmonitor.presentation.viewmodel.CallLogListViewModel
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

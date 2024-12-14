@@ -1,12 +1,12 @@
-package com.mpomian.callmonitor.viewmodel
+package com.mpomian.callmonitor.presentation.viewmodel
 
 import androidx.lifecycle.ViewModel
-import com.mpomian.callmonitor.model.LoggedCall
-import com.mpomian.callmonitor.model.OngoingCall
-import com.mpomian.callmonitor.model.ServerState
-import com.mpomian.callmonitor.network.HttpServer
-import com.mpomian.callmonitor.repository.base.CallLogRepository
-import com.mpomian.callmonitor.repository.base.CallStatusProvider
+import com.mpomian.callmonitor.data.model.LoggedCall
+import com.mpomian.callmonitor.data.model.OngoingCall
+import com.mpomian.callmonitor.data.model.ServerState
+import com.mpomian.callmonitor.data.network.HttpServer
+import com.mpomian.callmonitor.data.repository.base.CallLogRepository
+import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow

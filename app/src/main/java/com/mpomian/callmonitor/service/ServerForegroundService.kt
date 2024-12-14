@@ -12,7 +12,7 @@ import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.mpomian.callmonitor.CallMonitorApp
 import com.mpomian.callmonitor.R
-import com.mpomian.callmonitor.model.ServerState
+import com.mpomian.callmonitor.data.model.ServerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch

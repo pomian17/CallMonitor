@@ -1,9 +1,9 @@
-package com.mpomian.callmonitor.repository.real
+package com.mpomian.callmonitor.data.repository.real
 
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.ContactsContract
-import com.mpomian.callmonitor.repository.base.ContactResolver
+import com.mpomian.callmonitor.data.repository.base.ContactResolver
 
 class RealContactResolver(private val contentResolver: ContentResolver) : ContactResolver {
 

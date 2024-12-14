@@ -1,6 +1,6 @@
-package com.mpomian.callmonitor.repository.base
+package com.mpomian.callmonitor.data.repository.base
 
-import com.mpomian.callmonitor.model.OngoingCall
+import com.mpomian.callmonitor.data.model.OngoingCall
 import kotlinx.coroutines.flow.StateFlow
 
 interface CallStatusProvider {

@@ -1,4 +1,4 @@
-package com.mpomian.callmonitor.composables.screens
+package com.mpomian.callmonitor.presentation.screen
 
 import android.Manifest
 import android.content.Context
@@ -158,7 +158,7 @@ fun EnablePermissionsRationaleLayout(
             Button(
                 onClick = {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        data = Uri.fromParts("package", context.packageName, null)
+                        Intent.setData = Uri.fromParts("package", context.packageName, null)
                     }
                     context.startActivity(intent)
                 }

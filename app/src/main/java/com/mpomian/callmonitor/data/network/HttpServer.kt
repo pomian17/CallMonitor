@@ -1,9 +1,9 @@
-package com.mpomian.callmonitor.network
+package com.mpomian.callmonitor.data.network
 
-import com.mpomian.callmonitor.model.CallLogWithQueryCount
-import com.mpomian.callmonitor.model.ServerState
-import com.mpomian.callmonitor.repository.base.CallLogRepository
-import com.mpomian.callmonitor.repository.base.CallStatusProvider
+import com.mpomian.callmonitor.data.model.CallLogWithQueryCount
+import com.mpomian.callmonitor.data.model.ServerState
+import com.mpomian.callmonitor.data.repository.base.CallLogRepository
+import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
 import io.ktor.http.ContentType

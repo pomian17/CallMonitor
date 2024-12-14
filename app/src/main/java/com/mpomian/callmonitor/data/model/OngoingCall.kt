@@ -1,4 +1,4 @@
-package com.mpomian.callmonitor.model
+package com.mpomian.callmonitor.data.model
 
 import kotlinx.serialization.Serializable
 

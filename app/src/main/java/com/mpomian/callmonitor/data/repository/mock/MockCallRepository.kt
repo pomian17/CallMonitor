@@ -1,7 +1,7 @@
-package com.mpomian.callmonitor.repository.mock
+package com.mpomian.callmonitor.data.repository.mock
 
-import com.mpomian.callmonitor.model.LoggedCall
-import com.mpomian.callmonitor.repository.base.CallLogRepository
+import com.mpomian.callmonitor.data.model.LoggedCall
+import com.mpomian.callmonitor.data.repository.base.CallLogRepository
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers

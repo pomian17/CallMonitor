@@ -8,7 +8,7 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.foundation.layout.padding
 import androidx.compose.material3.Scaffold
 import androidx.compose.ui.Modifier
-import com.mpomian.callmonitor.composables.MainNavHost
+import com.mpomian.callmonitor.presentation.navigation.MainNavHost
 import com.mpomian.callmonitor.ui.theme.CallMonitorTheme
 
 class MainActivity : ComponentActivity() {

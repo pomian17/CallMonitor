@@ -1,12 +1,12 @@
 @file:Suppress("DEPRECATION")
 
-package com.mpomian.callmonitor.repository.real
+package com.mpomian.callmonitor.data.repository.real
 
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
-import com.mpomian.callmonitor.model.OngoingCall
-import com.mpomian.callmonitor.repository.base.CallStatusProvider
-import com.mpomian.callmonitor.repository.base.ContactResolver
+import com.mpomian.callmonitor.data.model.OngoingCall
+import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
+import com.mpomian.callmonitor.data.repository.base.ContactResolver
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
