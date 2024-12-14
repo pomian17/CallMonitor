@@ -11,6 +11,7 @@ import android.os.IBinder
 import androidx.annotation.RequiresApi
 import androidx.core.app.NotificationCompat
 import com.mpomian.callmonitor.CallMonitorApp
+import com.mpomian.callmonitor.R
 import com.mpomian.callmonitor.model.ServerState
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -27,16 +28,19 @@ class ServerForegroundService : Service() {
             createNotificationChannel()
             startForeground(
                 NOTIFICATION_ID,
-                createNotification("Server ready to start"),
+                createNotification(getString(R.string.server_ready_to_start)),
                 FOREGROUND_SERVICE_TYPE_DATA_SYNC
             )
         } else {
-            startForeground(NOTIFICATION_ID, createNotification("Server ready to start"))
+            startForeground(
+                NOTIFICATION_ID,
+                createNotification(getString(R.string.server_ready_to_start))
+            )
         }
     }
 
     override fun onStartCommand(intent: Intent?, flags: Int, startId: Int): Int {
-        if (server.serverState.value == ServerState.STOPPED) {
+        if (server.serverState.value != ServerState.RUNNING) {
             serviceScope.launch { startServer() }
         }
         return START_STICKY
@@ -55,7 +59,12 @@ class ServerForegroundService : Service() {
             e.printStackTrace()
             false
         }
-        updateNotification("Server status: ${if (startResult) "Running" else "Failure"}")
+        updateNotification(
+            getString(
+                R.string.server_status_notification,
+                if (startResult) getString(R.string.running) else getString(R.string.failure)
+            )
+        )
     }
 
     private fun stopServer() {
@@ -64,18 +73,18 @@ class ServerForegroundService : Service() {
 
     @RequiresApi(Build.VERSION_CODES.Q)
     private fun createNotificationChannel() {
-            val channel = NotificationChannel(
-                CHANNEL_ID,
-                "Server Notifications",
-                NotificationManager.IMPORTANCE_LOW
-            )
-            val manager = getSystemService(NotificationManager::class.java)
-            manager.createNotificationChannel(channel)
+        val channel = NotificationChannel(
+            CHANNEL_ID,
+            getString(R.string.server_notifications),
+            NotificationManager.IMPORTANCE_LOW
+        )
+        val manager = getSystemService(NotificationManager::class.java)
+        manager.createNotificationChannel(channel)
     }
 
     private fun createNotification(content: String): Notification {
         return NotificationCompat.Builder(this, CHANNEL_ID)
-            .setContentTitle("HTTP Server")
+            .setContentTitle(getString(R.string.http_server))
             .setContentText(content)
             .setSmallIcon(android.R.drawable.ic_dialog_info)
             .setPriority(NotificationCompat.PRIORITY_MAX)

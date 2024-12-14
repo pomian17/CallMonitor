@@ -26,4 +26,9 @@
     <string name="time">Time: %s</string>
     <string name="starting">Starting</string>
     <string name="stopping">Stopping</string>
+    <string name="server_ready_to_start">Server ready to start</string>
+    <string name="server_status_notification">Server status: %1$s</string>
+    <string name="failure">Failure</string>
+    <string name="server_notifications">Server Notifications</string>
+    <string name="http_server">HTTP Server</string>
 </resources>
