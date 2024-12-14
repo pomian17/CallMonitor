@@ -14,7 +14,7 @@ import kotlinx.coroutines.launch
 
 class CallLogListViewModel(
     private val repository: CallLogRepository,
-    private val callStatusProvider: CallStatusProvider,
+    callStatusProvider: CallStatusProvider,
     httpServer: HttpServer
 ) : ViewModel() {
 

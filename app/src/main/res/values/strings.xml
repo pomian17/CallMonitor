@@ -1,3 +1,27 @@
 <resources>
     <string name="app_name">Call Monitor</string>
+    <string name="read_call_log_permission_title">- read call logs</string>
+    <string name="read_contacts_permission_title">- read contacts</string>
+    <string name="read_phone_state_permission_title">- read phone state</string>
+    <string name="post_notifications_permission_title">- post notifications</string>
+    <string name="read_call_log_permission_not_granted">- app will use mocked call log</string>
+    <string name="read_contacts_permission_not_granted">- app will be unable to determine current caller name</string>
+    <string name="read_phone_state_permission_not_granted">- app will be unable to read current call state</string>
+    <string name="post_notifications_permission_not_granted">- HTTP server might be easily stopped by system</string>
+    <string name="first_launch_permission_title">Welcome to Call Monitor app! The app requires following permissions to work fully:</string>
+    <string name="grant_permissions">Grant Permissions</string>
+    <string name="permissions_rationale_title">Some permissions have been revoked. If you want the app to work fully, grant them manually. If you decide to proceed:</string>
+    <string name="open_settings">Open settings</string>
+    <string name="proceed">Proceed</string>
+    <string name="device_ip">Device IP: %s</string>
+    <string name="server_status">Server Status: %s</string>
+    <string name="running">Running</string>
+    <string name="stopped">Stopped</string>
+    <string name="start_server">Start Server</string>
+    <string name="stop_server">Stop Server</string>
+    <string name="name">Name: %s</string>
+    <string name="unknown">Unknown</string>
+    <string name="number">Number: %s</string>
+    <string name="duration_seconds">Duration: %s seconds</string>
+    <string name="time">Time: %s</string>
 </resources>
