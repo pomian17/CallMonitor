@@ -2,8 +2,8 @@ package com.mpomian.callmonitor.data.network
 
 import com.mpomian.callmonitor.data.model.CallLogWithQueryCount
 import com.mpomian.callmonitor.data.model.ServerState
-import com.mpomian.callmonitor.data.repository.base.CallLogRepository
-import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
+import com.mpomian.callmonitor.data.provider.base.CallLogProvider
+import com.mpomian.callmonitor.data.provider.base.CallStatusProvider
 import com.mpomian.callmonitor.utils.Utils.getDeviceIpAddress
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
 import io.ktor.http.ContentType
@@ -29,7 +29,7 @@ import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
 
 class HttpServer(
-    private val callLogRepository: CallLogRepository,
+    private val callLogProvider: CallLogProvider,
     private val callStatusProvider: CallStatusProvider
 ) {
 
@@ -68,7 +68,7 @@ class HttpServer(
 
                 safeGet(LOG) {
                     val callLogsWithQueryCount =
-                        callLogRepository.getCallLogs().value.map { log ->
+                        callLogProvider.getCallLogs().value.map { log ->
                             val timesQueried = queryCountMap[log.beginning] ?: 0
                             queryCountMap.put(log.beginning, timesQueried + 1)
                             CallLogWithQueryCount(

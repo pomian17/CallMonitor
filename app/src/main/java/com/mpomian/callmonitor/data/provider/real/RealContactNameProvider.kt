@@ -1,11 +1,11 @@
-package com.mpomian.callmonitor.data.repository.real
+package com.mpomian.callmonitor.data.provider.real
 
 import android.content.ContentResolver
 import android.net.Uri
 import android.provider.ContactsContract
-import com.mpomian.callmonitor.data.repository.base.ContactResolver
+import com.mpomian.callmonitor.data.provider.base.ContactNameProvider
 
-class RealContactResolver(private val contentResolver: ContentResolver) : ContactResolver {
+class RealContactNameProvider(private val contentResolver: ContentResolver) : ContactNameProvider {
 
     /**
      * Provides the contact name for the given phone number.

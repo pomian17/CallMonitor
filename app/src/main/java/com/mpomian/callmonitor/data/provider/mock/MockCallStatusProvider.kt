@@ -1,7 +1,7 @@
-package com.mpomian.callmonitor.data.repository.mock
+package com.mpomian.callmonitor.data.provider.mock
 
 import com.mpomian.callmonitor.data.model.OngoingCall
-import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
+import com.mpomian.callmonitor.data.provider.base.CallStatusProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 

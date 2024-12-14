@@ -1,19 +1,19 @@
 @file:Suppress("DEPRECATION")
 
-package com.mpomian.callmonitor.data.repository.real
+package com.mpomian.callmonitor.data.provider.real
 
 import android.telephony.PhoneStateListener
 import android.telephony.TelephonyManager
 import com.mpomian.callmonitor.data.model.OngoingCall
-import com.mpomian.callmonitor.data.repository.base.CallStatusProvider
-import com.mpomian.callmonitor.data.repository.base.ContactResolver
+import com.mpomian.callmonitor.data.provider.base.CallStatusProvider
+import com.mpomian.callmonitor.data.provider.base.ContactNameProvider
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
  * This class uses deprecated API due to lack of replacement in newer versions.
  */
-class RealCallStatusProvider(telephonyManager: TelephonyManager, contactResolver: ContactResolver) :
+class RealCallStatusProvider(telephonyManager: TelephonyManager, contactNameProvider: ContactNameProvider) :
     CallStatusProvider {
 
     private val _ongoingCall = MutableStateFlow(
@@ -37,7 +37,7 @@ class RealCallStatusProvider(telephonyManager: TelephonyManager, contactResolver
                 }
 
                 TelephonyManager.CALL_STATE_OFFHOOK -> {
-                    val callerName = phoneNumber?.let { contactResolver.getContactName(it) }
+                    val callerName = phoneNumber?.let { contactNameProvider.getContactName(it) }
                     _ongoingCall.value = OngoingCall(
                         ongoing = true,
                         number = phoneNumber,

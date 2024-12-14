@@ -1,7 +1,7 @@
-package com.mpomian.callmonitor.data.repository.mock
+package com.mpomian.callmonitor.data.provider.mock
 
 import com.mpomian.callmonitor.data.model.LoggedCall
-import com.mpomian.callmonitor.data.repository.base.CallLogRepository
+import com.mpomian.callmonitor.data.provider.base.CallLogProvider
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
@@ -10,7 +10,7 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.launch
 
-class MockCallRepository : CallLogRepository {
+class MockCallProvider : CallLogProvider {
 
     private val _listFlow = MutableStateFlow<List<LoggedCall>>(emptyList())
 

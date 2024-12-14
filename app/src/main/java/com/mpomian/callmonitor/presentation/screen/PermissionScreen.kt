@@ -158,7 +158,7 @@ fun EnablePermissionsRationaleLayout(
             Button(
                 onClick = {
                     val intent = Intent(Settings.ACTION_APPLICATION_DETAILS_SETTINGS).apply {
-                        Intent.setData = Uri.fromParts("package", context.packageName, null)
+                        data = Uri.fromParts("package", context.packageName, null)
                     }
                     context.startActivity(intent)
                 }

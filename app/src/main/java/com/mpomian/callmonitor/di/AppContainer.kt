@@ -6,13 +6,13 @@ import android.telephony.TelephonyManager
 import androidx.core.content.ContextCompat
 import androidx.core.content.PermissionChecker
 import com.mpomian.callmonitor.data.network.HttpServer
-import com.mpomian.callmonitor.data.repository.base.CallLogRepository
-import com.mpomian.callmonitor.data.repository.mock.MockCallRepository
-import com.mpomian.callmonitor.data.repository.mock.MockCallStatusProvider
-import com.mpomian.callmonitor.data.repository.mock.MockContactResolver
-import com.mpomian.callmonitor.data.repository.real.CallLogProvider
-import com.mpomian.callmonitor.data.repository.real.RealCallStatusProvider
-import com.mpomian.callmonitor.data.repository.real.RealContactResolver
+import com.mpomian.callmonitor.data.provider.base.CallLogProvider
+import com.mpomian.callmonitor.data.provider.mock.MockCallProvider
+import com.mpomian.callmonitor.data.provider.mock.MockCallStatusProvider
+import com.mpomian.callmonitor.data.provider.mock.MockContactNameProvider
+import com.mpomian.callmonitor.data.provider.real.RealCallLogProvider
+import com.mpomian.callmonitor.data.provider.real.RealCallStatusProvider
+import com.mpomian.callmonitor.data.provider.real.RealContactNameProvider
 
 class AppContainer(context: Context) {
 
@@ -35,11 +35,11 @@ class AppContainer(context: Context) {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
-    val callRepository: CallLogRepository by lazy {
+    val callLogProvider: CallLogProvider by lazy {
         if (hasCallLogPermission) {
-            CallLogProvider(context.contentResolver)
+            RealCallLogProvider(context.contentResolver)
         } else {
-            MockCallRepository()
+            MockCallProvider()
         }
     }
 
@@ -49,9 +49,9 @@ class AppContainer(context: Context) {
 
     private val contactResolver by lazy {
         if (hasContactPermission) {
-            RealContactResolver(context.contentResolver)
+            RealContactNameProvider(context.contentResolver)
         } else {
-            MockContactResolver()
+            MockContactNameProvider()
         }
     }
 
@@ -63,5 +63,5 @@ class AppContainer(context: Context) {
         }
     }
 
-    val httpServer: HttpServer by lazy { HttpServer(callRepository, callStatusProvider) }
+    val httpServer: HttpServer by lazy { HttpServer(callLogProvider, callStatusProvider) }
 }
