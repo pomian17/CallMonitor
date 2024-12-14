@@ -5,7 +5,6 @@ import androidx.compose.foundation.layout.*
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
-import androidx.compose.foundation.text.BasicText
 import androidx.compose.material3.Button
 import androidx.compose.material3.Text
 import androidx.compose.runtime.Composable
@@ -99,14 +98,14 @@ fun CallLogItem(call: LoggedCall) {
             .fillMaxWidth()
             .padding(8.dp)
     ) {
-        BasicText(
+        Text(
             text = stringResource(
                 R.string.name,
                 call.name ?: stringResource(R.string.unknown)
             )
         )
-        BasicText(text = stringResource(R.string.number, call.number))
-        BasicText(text = stringResource(R.string.duration_seconds, call.duration))
-        BasicText(text = stringResource(R.string.time, call.beginning))
+        Text(text = stringResource(R.string.number, call.number))
+        Text(text = stringResource(R.string.duration_seconds, call.duration))
+        Text(text = stringResource(R.string.time, call.beginning))
     }
 }
