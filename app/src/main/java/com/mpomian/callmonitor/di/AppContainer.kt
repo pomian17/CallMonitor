@@ -10,9 +10,12 @@ import com.mpomian.callmonitor.data.provider.base.CallLogProvider
 import com.mpomian.callmonitor.data.provider.mock.MockCallProvider
 import com.mpomian.callmonitor.data.provider.mock.MockCallStatusProvider
 import com.mpomian.callmonitor.data.provider.mock.MockContactNameProvider
+import com.mpomian.callmonitor.data.provider.real.CallLogObserver
 import com.mpomian.callmonitor.data.provider.real.RealCallLogProvider
 import com.mpomian.callmonitor.data.provider.real.RealCallStatusProvider
 import com.mpomian.callmonitor.data.provider.real.RealContactNameProvider
+import kotlinx.coroutines.CoroutineScope
+import kotlinx.coroutines.Dispatchers
 
 class AppContainer(context: Context) {
 
@@ -37,7 +40,11 @@ class AppContainer(context: Context) {
 
     val callLogProvider: CallLogProvider by lazy {
         if (hasCallLogPermission) {
-            RealCallLogProvider(context.contentResolver)
+            RealCallLogProvider(
+                context.contentResolver,
+                CallLogObserver(context.contentResolver),
+                CoroutineScope(Dispatchers.Default)
+            )
         } else {
             MockCallProvider()
         }

@@ -1,38 +1,32 @@
 package com.mpomian.callmonitor.data.provider.real
 
 import android.content.ContentResolver
-import android.database.ContentObserver
-import android.net.Uri
-import android.os.Handler
-import android.os.Looper
 import android.provider.CallLog
 import com.mpomian.callmonitor.data.model.LoggedCall
 import com.mpomian.callmonitor.data.provider.base.CallLogProvider
 import com.mpomian.callmonitor.utils.Utils.toFormattedDate
+import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
+import kotlinx.coroutines.flow.launchIn
+import kotlinx.coroutines.flow.onEach
 
-class RealCallLogProvider(private val contentResolver: ContentResolver) : CallLogProvider {
+class RealCallLogProvider(
+    private val contentResolver: ContentResolver,
+    callLogObserver: CallLogObserver,
+    coroutineScope: CoroutineScope
+) : CallLogProvider {
 
     private val _callLogsFlow = MutableStateFlow<List<LoggedCall>>(emptyList())
 
-    private val callLogObserver = object : ContentObserver(Handler(Looper.getMainLooper())) {
-        override fun onChange(selfChange: Boolean, uri: Uri?) {
-            super.onChange(selfChange, uri)
-            val newLogs = fetchCallLogs()
-            _callLogsFlow.value = newLogs
-        }
-    }
-
     init {
-        contentResolver.registerContentObserver(
-            CallLog.Calls.CONTENT_URI,
-            true,
-            callLogObserver
-        )
-
         val newLogs = fetchCallLogs()
         _callLogsFlow.value = newLogs
+
+        callLogObserver.callLogsFlow.onEach {
+            val newLogs: List<LoggedCall> = fetchCallLogs()
+            _callLogsFlow.value = newLogs
+        }.launchIn(coroutineScope)
     }
 
     override fun getCallLogs(): StateFlow<List<LoggedCall>> = _callLogsFlow

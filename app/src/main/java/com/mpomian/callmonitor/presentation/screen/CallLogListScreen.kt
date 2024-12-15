@@ -1,7 +1,15 @@
 package com.mpomian.callmonitor.presentation.screen
 
 import android.content.Intent
-import androidx.compose.foundation.layout.*
+import androidx.compose.foundation.layout.Arrangement
+import androidx.compose.foundation.layout.Column
+import androidx.compose.foundation.layout.Row
+import androidx.compose.foundation.layout.Spacer
+import androidx.compose.foundation.layout.fillMaxSize
+import androidx.compose.foundation.layout.fillMaxWidth
+import androidx.compose.foundation.layout.height
+import androidx.compose.foundation.layout.padding
+import androidx.compose.foundation.layout.width
 import androidx.compose.foundation.lazy.LazyColumn
 import androidx.compose.foundation.lazy.itemsIndexed
 import androidx.compose.foundation.lazy.rememberLazyListState
@@ -19,8 +27,8 @@ import com.google.accompanist.permissions.ExperimentalPermissionsApi
 import com.mpomian.callmonitor.R
 import com.mpomian.callmonitor.data.model.LoggedCall
 import com.mpomian.callmonitor.data.model.ServerState
-import com.mpomian.callmonitor.service.ServerForegroundService
 import com.mpomian.callmonitor.presentation.viewmodel.CallLogListViewModel
+import com.mpomian.callmonitor.service.ServerForegroundService
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
