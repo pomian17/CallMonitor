@@ -30,6 +30,13 @@ import com.mpomian.callmonitor.data.model.ServerState
 import com.mpomian.callmonitor.presentation.viewmodel.CallLogListViewModel
 import com.mpomian.callmonitor.service.ServerForegroundService
 
+
+/**
+ * CallLogListScreen is a screen that displays:
+ * - server data and its controls
+ * - ongoing call data
+ * - list of call logs
+ */
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable
 fun CallLogListScreen(viewModel: CallLogListViewModel, modifier: Modifier = Modifier) {

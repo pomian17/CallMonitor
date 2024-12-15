@@ -17,9 +17,13 @@ import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.launch
 
+/**
+ * ServerForegroundService is a foreground service that starts the HTTP server
+ * and keeps it running in background by displaying a notification.
+ */
 class ServerForegroundService : Service() {
 
-    private val server by lazy { (application as CallMonitorApp).appContainer.httpServer }
+    private val server by lazy { (application as CallMonitorApp).dependencyProvider.httpServer }
     private val serviceScope = CoroutineScope(Dispatchers.IO)
 
     override fun onCreate() {

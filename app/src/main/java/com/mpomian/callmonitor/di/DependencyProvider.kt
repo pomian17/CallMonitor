@@ -17,7 +17,10 @@ import com.mpomian.callmonitor.data.provider.real.RealContactNameProvider
 import kotlinx.coroutines.CoroutineScope
 import kotlinx.coroutines.Dispatchers
 
-class AppContainer(context: Context) {
+/**
+ * DependencyProvider is responsible for providing dependencies for the application.
+ */
+class DependencyProvider(context: Context) {
 
     val hasCallLogPermission: Boolean by lazy {
         ContextCompat.checkSelfPermission(

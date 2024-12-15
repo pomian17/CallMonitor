@@ -11,7 +11,8 @@ import kotlinx.coroutines.flow.MutableStateFlow
 import kotlinx.coroutines.flow.StateFlow
 
 /**
- * This class uses deprecated API due to lack of replacement in newer versions.
+ * Real implementation of [CallStatusProvider] that uses [TelephonyManager] to get the call status.
+ * This class uses deprecated API due to lack of direct replacement in newer Android versions.
  */
 class RealCallStatusProvider(telephonyManager: TelephonyManager, contactNameProvider: ContactNameProvider) :
     CallStatusProvider {

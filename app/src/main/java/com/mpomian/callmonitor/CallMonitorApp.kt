@@ -1,9 +1,9 @@
 package com.mpomian.callmonitor
 
 import android.app.Application
-import com.mpomian.callmonitor.di.AppContainer
+import com.mpomian.callmonitor.di.DependencyProvider
 
 
 class CallMonitorApp : Application() {
-    val appContainer = AppContainer(this)
+    val dependencyProvider = DependencyProvider(this)
 }

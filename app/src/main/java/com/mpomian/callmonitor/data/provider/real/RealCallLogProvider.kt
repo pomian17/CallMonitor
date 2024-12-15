@@ -11,6 +11,10 @@ import kotlinx.coroutines.flow.StateFlow
 import kotlinx.coroutines.flow.launchIn
 import kotlinx.coroutines.flow.onEach
 
+/**
+ * Real implementation of [CallLogProvider] that fetches call logs from the device's call log.
+ * It retrieves the call logs once when created and then listens for changes in the call log.
+ */
 class RealCallLogProvider(
     private val contentResolver: ContentResolver,
     callLogObserver: CallLogObserver,

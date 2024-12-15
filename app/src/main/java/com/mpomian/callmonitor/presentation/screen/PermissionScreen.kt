@@ -31,6 +31,11 @@ import com.google.accompanist.permissions.rememberMultiplePermissionsState
 import com.google.accompanist.permissions.shouldShowRationale
 import com.mpomian.callmonitor.R
 
+/**
+ * PermissionsScreen is a screen that displays informative messages about required permissions
+ * and consequences of not granting them.
+ * It's the initial screen of the app, that is skipped when all required permissions are granted.
+ */
 
 @OptIn(ExperimentalPermissionsApi::class)
 @Composable

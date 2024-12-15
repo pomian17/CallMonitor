@@ -28,6 +28,11 @@ import kotlinx.serialization.encodeToString
 import kotlinx.serialization.json.Json
 import java.util.concurrent.ConcurrentHashMap
 
+/**
+ * A simple HTTP server that provides access to call logs and call status.
+ * The server also maintains counters for how many times each call log has been queried.
+ */
+
 class HttpServer(
     private val callLogProvider: CallLogProvider,
     private val callStatusProvider: CallStatusProvider

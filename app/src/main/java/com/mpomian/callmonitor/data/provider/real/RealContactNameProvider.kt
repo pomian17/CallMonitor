@@ -5,6 +5,10 @@ import android.net.Uri
 import android.provider.ContactsContract
 import com.mpomian.callmonitor.data.provider.base.ContactNameProvider
 
+/**
+ * A real implementation of the [ContactNameProvider] interface that uses
+ * the device's contacts to resolve contact names.
+ */
 class RealContactNameProvider(private val contentResolver: ContentResolver) : ContactNameProvider {
 
     /**

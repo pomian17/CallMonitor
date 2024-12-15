@@ -19,13 +19,13 @@ class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
 
-        val appContainer = (application as CallMonitorApp).appContainer
+        val dependencyProvider = (application as CallMonitorApp).dependencyProvider
 
         val viewModel: CallLogListViewModel by viewModels {
             ViewModelFactory(
-                appContainer.callLogProvider,
-                appContainer.callStatusProvider,
-                appContainer.httpServer
+                dependencyProvider.callLogProvider,
+                dependencyProvider.callStatusProvider,
+                dependencyProvider.httpServer
             )
         }
         enableEdgeToEdge()
