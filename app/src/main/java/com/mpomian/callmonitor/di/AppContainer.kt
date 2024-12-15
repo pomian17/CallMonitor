@@ -38,12 +38,17 @@ class AppContainer(context: Context) {
         ) == PermissionChecker.PERMISSION_GRANTED
     }
 
+    private val coroutineScope = CoroutineScope(Dispatchers.Default)
+
     val callLogProvider: CallLogProvider by lazy {
         if (hasCallLogPermission) {
             RealCallLogProvider(
                 context.contentResolver,
-                CallLogObserver(context.contentResolver),
-                CoroutineScope(Dispatchers.Default)
+                CallLogObserver(
+                    context.contentResolver,
+                    coroutineScope
+                ),
+                coroutineScope
             )
         } else {
             MockCallProvider()
