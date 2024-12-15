@@ -80,11 +80,18 @@ Example Response:
 ```json
 [
   {
-    "beginning": "2024-12-14T10:00:00+00:00",
+    "beginning": "2024-12-14T12:00:00+00:00",
     "duration": "498",
     "number": "+120255550203",
     "name": "Jane Doe",
-    "timesQueried": "5"
+    "timesQueried": "1"
+  },
+  {
+    "beginning": "2024-12-14T11:00:00+00:00",
+    "duration": "300",
+    "number": "+120255550204",
+    "name": "John Doe",
+    "timesQueried": "3"
   }
 ]
 ```
@@ -92,11 +99,12 @@ Example Response:
 ---
 
 ## Permissions
-The app requires the following permissions to function:
+The app requires the following permissions to function fully:
 - **READ_CALL_LOG**: To retrieve call log data.
 - **READ_PHONE_STATE**: To monitor ongoing call status.
 - **READ_CONTACTS**: To retrieve caller name from contacts.
 - **FOREGROUND_SERVICE**: To run HTTP server as a foreground service.
+
 When any permission is not granted app will continue to work but with limited functionality and mocked data.
 
 ---
