@@ -5,7 +5,6 @@ import androidx.compose.ui.Modifier
 import androidx.navigation.compose.NavHost
 import androidx.navigation.compose.composable
 import androidx.navigation.compose.rememberNavController
-import com.mpomian.callmonitor.di.AppContainer
 import com.mpomian.callmonitor.presentation.screen.CallLogListScreen
 import com.mpomian.callmonitor.presentation.screen.PermissionsScreen
 import com.mpomian.callmonitor.presentation.viewmodel.CallLogListViewModel
@@ -15,7 +14,7 @@ const val CALL_LOG_LIST_ROUTE = "call_log_list"
 
 @Composable
 fun MainNavHost(
-    appContainer: AppContainer,
+    viewModel: CallLogListViewModel,
     modifier: Modifier
 ) {
     val navController = rememberNavController()
@@ -31,11 +30,6 @@ fun MainNavHost(
             )
         }
         composable(CALL_LOG_LIST_ROUTE) {
-            val viewModel = CallLogListViewModel(
-                appContainer.callLogProvider,
-                appContainer.callStatusProvider,
-                appContainer.httpServer
-            )
             CallLogListScreen(viewModel = viewModel, modifier = modifier)
         }
     }
