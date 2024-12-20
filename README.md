@@ -114,3 +114,4 @@ When any permission is not granted app will continue to work but with limited fu
 - The app does not react on permission changes on runtime, app needs to be restarted to apply changes
 - The app does not handle network state changes in regard to the HTTP server
 - HTTP server could be refactored into several classes, e.g. one that will track timesQueried
+- the app has not been tested on API < 32
